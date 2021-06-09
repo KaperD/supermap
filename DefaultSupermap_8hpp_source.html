@@ -89,7 +89,7 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        IndexT batchSize;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordtype">double</span> maxNotSortedPart{};</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        std::string folderName;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">/* TODO: Add BloomFilter c-tor params */</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">double</span> errorProbability{};</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    };</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">public</span>:</div>
@@ -128,11 +128,11 @@ $(function() {
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        };</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        std::function&lt;std::unique_ptr&lt;Register&gt;()&gt;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            innerRegisterSupplier = [<span class="comment">/* TODO: capture BloomFilter c-tor params by value here */</span>]() {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            innerRegisterSupplier = [errorProbability = params.errorProbability]() {</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> std::make_unique&lt;FilteringRegister&lt;KI, K&gt;&gt;(</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                [<span class="comment">/* TODO: capture BloomFilter c-tor params by value here */</span>]() {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                [errorProbability = errorProbability]() {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">return</span> std::make_unique&lt;BloomFilter&lt;K&gt;&gt;(</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        <span class="comment">/* TODO: pass BloomFilter ctor arguments here */</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        errorProbability</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    );</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                },</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                [](<span class="keyword">const</span> KI &amp;ki) { <span class="keywordflow">return</span> ki.key; }</div>

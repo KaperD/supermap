@@ -88,7 +88,7 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">using</span> <a class="code" href="classsupermap_1_1Filter.html">BaseFilter</a> = <a class="code" href="classsupermap_1_1Filter.html">Filter&lt;T&gt;</a>;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a>() {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a>(<span class="keywordtype">double</span> errorProbability) : sizeMultiplier_(-1.44 * std::log2(errorProbability)) {</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        constexpr std::size_t keysSize = <a class="code" href="structsupermap_1_1io_1_1FixedDeserializedSizeRegister.html">io::FixedDeserializedSizeRegister&lt;T&gt;::exactDeserializedSize</a>;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">auto</span> numberOfHashFunctions = std::max(1ul, <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(std::ceil(std::log2(keysSize))));</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        seeds_.resize(numberOfHashFunctions);</div>
@@ -125,34 +125,35 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classsupermap_1_1BloomFilter.html#a310cec01cae37d69ad92e3e1c10e129c">   66</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classsupermap_1_1BloomFilter.html#a310cec01cae37d69ad92e3e1c10e129c">reserve</a>(std::uint64_t numberOfElements)<span class="keyword"> override </span>{</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        assert(!wasReserved_);</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        wasReserved_ = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        elements_.resize(numberOfElements * sizeMultiplier_);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    };</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a>(<span class="keyword">const</span> <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a> &amp;other) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">static</span> constexpr std::size_t sizeMultiplier_ = 7;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    std::vector&lt;XXH64_hash_t&gt; seeds_;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;bool&gt; elements_;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">bool</span> wasReserved_ = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    std::size_t getHashWithSeed(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, std::size_t len, XXH64_hash_t seed)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(get64bitHashWithSeed(data, len, seed) % elements_.size());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    XXH64_hash_t get64bitHashWithSeed(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, std::size_t len, XXH64_hash_t seed)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> XXH3_64bits_withSeed(data, len, seed);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    std::string serialize(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        std::stringstream stream;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        io::serialize(value, stream);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> stream.str();</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;} <span class="comment">// supermap</span></div>
-<div class="ttc" id="aclasssupermap_1_1BloomFilter_html"><div class="ttname"><a href="classsupermap_1_1BloomFilter.html">supermap::BloomFilter</a></div><div class="ttdoc">A filter based on the bloom filtering algorithm. Error probability is approximately 1/32.</div><div class="ttdef"><b>Definition:</b> BloomFilter.hpp:17</div></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">auto</span> size = <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(std::ceil(<span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(numberOfElements) * sizeMultiplier_));</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        elements_.resize(size);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a>(<span class="keyword">const</span> <a class="code" href="classsupermap_1_1BloomFilter.html">BloomFilter</a> &amp;other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> sizeMultiplier_;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;XXH64_hash_t&gt; seeds_;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;bool&gt; elements_;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">bool</span> wasReserved_ = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    std::size_t getHashWithSeed(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, std::size_t len, XXH64_hash_t seed)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(get64bitHashWithSeed(data, len, seed) % elements_.size());</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    XXH64_hash_t get64bitHashWithSeed(<span class="keyword">const</span> <span class="keywordtype">void</span> *data, std::size_t len, XXH64_hash_t seed)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">return</span> XXH3_64bits_withSeed(data, len, seed);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::string serialize(<span class="keyword">const</span> T &amp;value)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        std::stringstream stream;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        io::serialize(value, stream);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">return</span> stream.str();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;};</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;} <span class="comment">// supermap</span></div>
+<div class="ttc" id="aclasssupermap_1_1BloomFilter_html"><div class="ttname"><a href="classsupermap_1_1BloomFilter.html">supermap::BloomFilter</a></div><div class="ttdoc">A filter based on the bloom filtering algorithm. Error probability is set in constructor.</div><div class="ttdef"><b>Definition:</b> BloomFilter.hpp:17</div></div>
 <div class="ttc" id="aclasssupermap_1_1BloomFilter_html_a310cec01cae37d69ad92e3e1c10e129c"><div class="ttname"><a href="classsupermap_1_1BloomFilter.html#a310cec01cae37d69ad92e3e1c10e129c">supermap::BloomFilter::reserve</a></div><div class="ttdeci">void reserve(std::uint64_t numberOfElements) override</div><div class="ttdoc">Reserve filter for n elements.</div><div class="ttdef"><b>Definition:</b> BloomFilter.hpp:66</div></div>
 <div class="ttc" id="aclasssupermap_1_1BloomFilter_html_a68d2add51a940b54edb75b80ad3c660e"><div class="ttname"><a href="classsupermap_1_1BloomFilter.html#a68d2add51a940b54edb75b80ad3c660e">supermap::BloomFilter::mightContain</a></div><div class="ttdeci">bool mightContain(const T &amp;value) const override</div><div class="ttdef"><b>Definition:</b> BloomFilter.hpp:47</div></div>
 <div class="ttc" id="aclasssupermap_1_1BloomFilter_html_ab4ef52ebc586cd9b14c909975f253c73"><div class="ttname"><a href="classsupermap_1_1BloomFilter.html#ab4ef52ebc586cd9b14c909975f253c73">supermap::BloomFilter::add</a></div><div class="ttdeci">void add(const T &amp;value) override</div><div class="ttdoc">Add an key-index pair to filter.</div><div class="ttdef"><b>Definition:</b> BloomFilter.hpp:35</div></div>
