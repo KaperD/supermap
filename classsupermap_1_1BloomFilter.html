@@ -74,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A filter based on the bloom filtering algorithm. Error probability is set in constructor.  
+<p>A filter based on the bloom filtering algorithm.  
  <a href="classsupermap_1_1BloomFilter.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="BloomFilter_8hpp_source.html">BloomFilter.hpp</a>&gt;</code></p>
@@ -83,7 +83,7 @@ Inheritance diagram for supermap::BloomFilter&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsupermap_1_1BloomFilter__inherit__graph.png" border="0" usemap="#asupermap_1_1BloomFilter_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="asupermap_1_1BloomFilter_3_01T_01_4_inherit__map" id="asupermap_1_1BloomFilter_3_01T_01_4_inherit__map">
-<area shape="rect" title="A filter based on the bloom filtering algorithm. Error probability is set in constructor." alt="" coords="5,169,187,196"/>
+<area shape="rect" title="A filter based on the bloom filtering algorithm." alt="" coords="5,169,187,196"/>
 <area shape="rect" href="classsupermap_1_1Filter.html" title="Filter, which can add elements to self and tell which elements are certainly were not added to filter..." alt="" coords="24,95,168,121"/>
 <area shape="rect" href="classsupermap_1_1Cloneable.html" title=" " alt="" coords="25,5,167,47"/>
 </map>
@@ -93,7 +93,7 @@ Collaboration diagram for supermap::BloomFilter&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsupermap_1_1BloomFilter__coll__graph.png" border="0" usemap="#asupermap_1_1BloomFilter_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="asupermap_1_1BloomFilter_3_01T_01_4_coll__map" id="asupermap_1_1BloomFilter_3_01T_01_4_coll__map">
-<area shape="rect" title="A filter based on the bloom filtering algorithm. Error probability is set in constructor." alt="" coords="5,169,187,196"/>
+<area shape="rect" title="A filter based on the bloom filtering algorithm." alt="" coords="5,169,187,196"/>
 <area shape="rect" href="classsupermap_1_1Filter.html" title="Filter, which can add elements to self and tell which elements are certainly were not added to filter..." alt="" coords="24,95,168,121"/>
 <area shape="rect" href="classsupermap_1_1Cloneable.html" title=" " alt="" coords="25,5,167,47"/>
 </map>
@@ -101,9 +101,9 @@ Collaboration diagram for supermap::BloomFilter&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a419abcf81115fd23edff0d6a9e2f1bee"><td class="memItemLeft" align="right" valign="top"><a id="a419abcf81115fd23edff0d6a9e2f1bee"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BloomFilter</b> (double errorProbability)</td></tr>
-<tr class="separator:a419abcf81115fd23edff0d6a9e2f1bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892be30a663cc38d8a19fff6e64ad988"><td class="memItemLeft" align="right" valign="top"><a id="a892be30a663cc38d8a19fff6e64ad988"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BloomFilter</b> (double errorProbability, std::unique_ptr&lt; <a class="el" href="classsupermap_1_1Hasher.html">Hasher</a> &gt; &amp;&amp;hasher)</td></tr>
+<tr class="separator:a892be30a663cc38d8a19fff6e64ad988"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ef52ebc586cd9b14c909975f253c73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsupermap_1_1BloomFilter.html#ab4ef52ebc586cd9b14c909975f253c73">add</a> (const T &amp;value) override</td></tr>
 <tr class="memdesc:ab4ef52ebc586cd9b14c909975f253c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an key-index pair to filter.  <a href="classsupermap_1_1BloomFilter.html#ab4ef52ebc586cd9b14c909975f253c73">More...</a><br /></td></tr>
 <tr class="separator:ab4ef52ebc586cd9b14c909975f253c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,15 +117,15 @@ std::unique_ptr&lt; <a class="el" href="classsupermap_1_1Filter.html">BaseFilter
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsupermap_1_1BloomFilter.html#a310cec01cae37d69ad92e3e1c10e129c">reserve</a> (std::uint64_t numberOfElements) override</td></tr>
 <tr class="memdesc:a310cec01cae37d69ad92e3e1c10e129c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserve filter for <code>n</code> elements. <br /></td></tr>
 <tr class="separator:a310cec01cae37d69ad92e3e1c10e129c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98a7110b79ae3e8220b64e51e8255c50"><td class="memItemLeft" align="right" valign="top"><a id="a98a7110b79ae3e8220b64e51e8255c50"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BloomFilter</b> (const <a class="el" href="classsupermap_1_1BloomFilter.html">BloomFilter</a> &amp;other)=default</td></tr>
-<tr class="separator:a98a7110b79ae3e8220b64e51e8255c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f6ff7150ef9073295f7589b7b39af7"><td class="memItemLeft" align="right" valign="top"><a id="ad7f6ff7150ef9073295f7589b7b39af7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BloomFilter</b> (const <a class="el" href="classsupermap_1_1BloomFilter.html">BloomFilter</a> &amp;other)</td></tr>
+<tr class="separator:ad7f6ff7150ef9073295f7589b7b39af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class supermap::BloomFilter&lt; T &gt;</h3>
 
-<p>A filter based on the bloom filtering algorithm. Error probability is set in constructor. </p>
+<p>A filter based on the bloom filtering algorithm. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab4ef52ebc586cd9b14c909975f253c73"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab4ef52ebc586cd9b14c909975f253c73">&#9670;&nbsp;</a></span>add()</h2>
